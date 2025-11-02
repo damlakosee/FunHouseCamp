@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Funhouse Camp - Your Home for Holiday Fun</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&family=Bubblegum+Sans&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --mint: #AAE9E5; --sky-blue: #87C7F1; --pink: #FEB7D3;
+            --lemon: #FFEDA9; --lavender: #EACFFF; --orange: #FF9B6A; --teal: #5BBFB8;
+        }
+        body { font-family: 'Poppins', sans-serif; line-height: 1.6; color: #333; overflow-x: hidden; }
+        h1, h2, h3 { font-family: 'Fredoka', sans-serif; }
+        .fun-heading { font-family: 'Bubblegum Sans', cursive; }
+        .header { background: white; box-shadow: 0 2px 10px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 1000; }
+        .top-bar { background: linear-gradient(90deg, var(--mint), var(--sky-blue), var(--lavender)); padding: 8px 0; text-align: center; font-size: 14px; font-weight: 500; color: #333; }
+        .nav-container { max-width: 1400px; margin: 0 auto; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; }
+        .logo-section { display: flex; align-items: center; gap: 15px; }
+        .logo { width: 80px; height: 80px; }
+        .logo-text h1 { font-size: 28px; background: linear-gradient(135deg, var(--orange), var(--pink), var(--teal)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .logo-text p { font-size: 14px; color: var(--teal); font-weight: 500; }
+        .main-nav { display: flex; gap: 30px; align-items: center; }
+        .main-nav a { text-decoration: none; color: #333; font-weight: 500; transition: all 0.3s; position: relative; }
+        .main-nav a:hover { color: var(--pink); }
+        .main-nav > a::after { content: ''; position: absolute; bottom: -5px; left: 0; width: 0; height: 3px; background: var(--pink); transition: width 0.3s; }
+        .main-nav > a:hover::after { width: 100%; }
+        
+        /* Dropdown styles */
+        .nav-dropdown {
+            position: relative;
+        }
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background: white;
+            min-width: 220px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            border-radius: 15px;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            margin-top: 10px;
+            padding: 10px 0;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .dropdown-content::before {
+            content: '';
+            position: absolute;
+            top: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 8px solid transparent;
+            border-right: 8px solid transparent;
+            border-bottom: 8px solid white;
+        }
+        .nav-dropdown:hover .dropdown-content {
+            display: block;
+            opacity: 1;
+        }
+        .dropdown-content a {
+            color: #333 !important;
+            padding: 10px 20px;
+            text-decoration: none;
+            display: block;
+            transition: all 0.3s;
+            font-size: 14px;
+        }
+        .dropdown-content a:hover {
+            background: var(--mint);
+            color: var(--teal) !important;
+        }
+        .dropdown-content a::after {
+            display: none !important;
+        }
+        .nav-dropdown > a::after {
+            content: ' ▼';
+            font-size: 10px;
+            vertical-align: middle;
+            margin-left: 5px;
+            opacity: 0.6;
+        }
+        
+        .book-now-btn { background: var(--pink); color: white; padding: 12px 30px; border-radius: 30px; font-weight: 600; text-decoration: none; transition: all 0.3s; box-shadow: 0 4px 15px rgba(254, 183, 211, 0.4); }
+        .book-now-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(254, 183, 211, 0.6); }
+        .mobile-menu { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+        .mobile-menu span { width: 30px; height: 3px; background: #333; transition: 0.3s; }
+        .hero { background: linear-gradient(135deg, var(--mint) 0%, var(--sky-blue) 50%, var(--lavender) 100%); padding: 80px 20px; text-align: center; position: relative; overflow: hidden; }
+        .hero::before { content: '⭐'; position: absolute; font-size: 100px; opacity: 0.1; top: 20px; left: 10%; animation: float 6s ease-in-out infinite; }
+        .hero::after { content: '🎈'; position: absolute; font-size: 80px; opacity: 0.1; bottom: 30px; right: 10%; animation: float 5s ease-in-out infinite; }
+        @keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-20px); } }
+        .hero-content { max-width: 1200px; margin: 0 auto; position: relative; z-index: 1; }
+        .hero h2 { font-size: 60px; margin-bottom: 20px; color: #333; text-shadow: 2px 2px 4px rgba(255,255,255,0.5); }
+        .hero-subtitle { font-size: 24px; margin-bottom: 40px; color: #555; font-weight: 500; }
+        .hero-features { display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; margin-bottom: 40px; }
+        .hero-feature { background: white; padding: 25px; border-radius: 20px; box-shadow: 0 5px 20px rgba(0,0,0,0.1); min-width: 180px; transition: transform 0.3s; }
+        .hero-feature:hover { transform: translateY(-5px); }
+        .hero-feature-icon { font-size: 40px; margin-bottom: 10px; }
+        .hero-feature h3 { font-size: 18px; margin-bottom: 5px; }
+        .hero-feature p { font-size: 14px; color: #666; }
+        .cta-buttons { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; }
+        .btn-primary { background: var(--pink); color: white; padding: 18px 40px; border-radius: 50px; text-decoration: none; font-weight: 600; font-size: 18px; box-shadow: 0 6px 20px rgba(254, 183, 211, 0.4); transition: all 0.3s; }
+        .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(254, 183, 211, 0.6); }
+        .btn-secondary { background: white; color: var(--teal); padding: 18px 40px; border-radius: 50px; text-decoration: none; font-weight: 600; font-size: 18px; box-shadow: 0 6px 20px rgba(0,0,0,0.1); transition: all 0.3s; }
+        .btn-secondary:hover { transform: translateY(-3px); background: var(--teal); color: white; }
+        .section { padding: 80px 20px; max-width: 1400px; margin: 0 auto; }
+        .section-title { text-align: center; font-size: 48px; margin-bottom: 15px; position: relative; display: inline-block; left: 50%; transform: translateX(-50%); }
+        .section-title::after { content: ''; position: absolute; bottom: -10px; left: 50%; transform: translateX(-50%); width: 80px; height: 4px; background: linear-gradient(90deg, var(--pink), var(--orange)); border-radius: 2px; }
+        .section-subtitle { text-align: center; font-size: 18px; color: #666; margin-bottom: 50px; max-width: 700px; margin-left: auto; margin-right: auto; }
+        .about-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 30px; margin-top: 50px; }
+        .about-card { padding: 40px; border-radius: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); transition: transform 0.3s; }
+        .about-card:hover { transform: translateY(-5px); }
+        .about-card h3 { font-size: 28px; margin-bottom: 20px; display: flex; align-items: center; gap: 12px; }
+        .about-card-icon { font-size: 35px; }
+        .about-card p { line-height: 1.8; color: #555; }
+        .quick-info { background: var(--lemon); padding: 50px; border-radius: 25px; margin: 50px 0; }
+        .quick-info h3 { font-size: 32px; margin-bottom: 30px; text-align: center; }
+        .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 25px; }
+        .info-item { background: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); }
+        .info-item strong { display: block; font-size: 18px; color: var(--teal); margin-bottom: 8px; }
+        .activities-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }
+        .activity-card { padding: 0; border-radius: 20px; box-shadow: 0 8px 25px rgba(0,0,0,0.12); transition: all 0.3s; position: relative; overflow: hidden; }
+        .activity-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 5px; background: linear-gradient(90deg, var(--orange), var(--pink)); z-index: 10; }
+        .activity-card:hover { transform: translateY(-8px); box-shadow: 0 12px 35px rgba(0,0,0,0.18); }
+        .activity-image { width: 100%; height: 280px; object-fit: cover; display: block; }
+        .activity-content { padding: 30px 35px 40px; }
+        .activity-card h3 { font-size: 24px; margin-bottom: 15px; color: #333; }
+        .activity-card p { color: #666; line-height: 1.7; }
+        .schedule-table { background: white; border-radius: 20px; overflow: hidden; box-shadow: 0 8px 25px rgba(0,0,0,0.1); margin-top: 40px; }
+        .schedule-row { display: grid; grid-template-columns: 150px 1fr; padding: 20px 30px; border-bottom: 1px solid #f0f0f0; transition: background 0.3s; }
+        .schedule-row:hover { background: #f9f9f9; }
+        .schedule-time { font-weight: 600; color: var(--teal); font-size: 18px; }
+        .schedule-activity { color: #555; font-size: 16px; }
+        .safety-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; margin: 40px 0; }
+        .safety-card { background: white; padding: 30px; border-radius: 20px; box-shadow: 0 6px 20px rgba(0,0,0,0.08); }
+        .safety-card h4 { font-size: 20px; margin-bottom: 15px; color: var(--teal); }
+        .safety-card ul { list-style: none; padding: 0; }
+        .safety-card li { padding: 8px 0; padding-left: 25px; position: relative; color: #555; }
+        .safety-card li::before { content: '✓'; position: absolute; left: 0; color: var(--pink); font-weight: bold; }
+        .faq-container { max-width: 900px; margin: 0 auto; }
+        .faq-item { background: white; margin-bottom: 15px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); overflow: hidden; }
+        .faq-question { padding: 25px 30px; cursor: pointer; font-weight: 600; font-size: 18px; display: flex; justify-content: space-between; align-items: center; transition: background 0.3s; }
+        .faq-question:hover { background: #f9f9f9; }
+        .faq-answer { padding: 0 30px; max-height: 0; overflow: hidden; transition: all 0.3s; color: #666; line-height: 1.8; }
+        .faq-answer.active { padding: 0 30px 25px 30px; max-height: 500px; }
+        .contact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-bottom: 40px; }
+        .contact-card { padding: 35px; border-radius: 20px; text-align: center; box-shadow: 0 6px 20px rgba(0,0,0,0.1); transition: transform 0.3s; }
+        .contact-card:hover { transform: translateY(-5px); }
+        .contact-icon { font-size: 50px; margin-bottom: 15px; }
+        .contact-card h3 { font-size: 22px; margin-bottom: 10px; }
+        .contact-card p { color: #666; }
+        .footer { background: linear-gradient(135deg, var(--sky-blue), var(--lavender)); padding: 50px 20px 20px; text-align: center; }
+        .footer-content { max-width: 1200px; margin: 0 auto; }
+        .footer-logo { width: 100px; margin-bottom: 15px; }
+        .footer h3 { font-size: 26px; margin-bottom: 10px; }
+        .footer p { margin: 8px 0; color: #555; }
+        .footer-links { display: flex; justify-content: center; gap: 30px; margin: 30px 0; flex-wrap: wrap; }
+        .footer-links a { color: #333; text-decoration: none; font-weight: 500; transition: color 0.3s; }
+        .footer-links a:hover { color: var(--pink); }
+        .copyright { margin-top: 30px; padding-top: 20px; border-top: 1px solid rgba(0,0,0,0.1); font-size: 14px; color: #666; }
+        @media (max-width: 768px) {
+            .main-nav { display: none; }
+            .mobile-menu { display: flex; }
+            .hero h2 { font-size: 40px; }
+            .hero-subtitle { font-size: 18px; }
+            .section-title { font-size: 36px; }
+            .schedule-row { grid-template-columns: 1fr; gap: 10px; }
+            .activities-grid { grid-template-columns: 1fr; }
+            .activity-image { height: 200px; }
+            .quick-info .info-grid { grid-template-columns: 1fr !important; }
+        }
+        @media (max-width: 1024px) {
+            .activities-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+
+        <div class="nav-container">
+            <div class="logo-section">
+                <img src="logo.png" alt="Funhouse Camp Logo" class="logo">
+                <div class="logo-text">
+                    <h1>Funhouse Camp</h1>
+                    <p>Your Home for Holiday Fun</p>
+                </div>
+            </div>
+            <nav class="main-nav">
+                <a href="#home">Home</a>
+                
+                <div class="nav-dropdown">
+                    <a href="#about">About Us</a>
+                    <div class="dropdown-content">
+                        <a href="#who-we-are">Who We Are</a>
+                        <a href="#our-mission">Our Mission</a>
+                        <a href="#quick-info">Quick Info</a>
+                    </div>
+                </div>
+                
+                <div class="nav-dropdown">
+                    <a href="#activities">Activities</a>
+                    <div class="dropdown-content">
+                        <a href="#sports-games">Sports & Games</a>
+                        <a href="#arts-crafts">Arts & Crafts</a>
+                        <a href="#drama-performance">Drama & Performance</a>
+                        <a href="#outdoor-adventures">Outdoor Adventures</a>
+                        <a href="#team-challenges">Team Challenges</a>
+                        <a href="#free-play">Free Play Time</a>
+                        <a href="#daily-schedule">Daily Schedule</a>
+                    </div>
+                </div>
+                
+                <div class="nav-dropdown">
+                    <a href="#parents">Parents</a>
+                    <div class="dropdown-content">
+                        <a href="#safety-wellbeing">Safety & Well-being</a>
+                        <a href="#send-inclusion">SEND Inclusion</a>
+                        <a href="#safeguarding-commitment">Safeguarding Commitment</a>
+                    </div>
+                </div>
+                
+                <a href="#faq">FAQ</a>
+                <a href="work-with-us.html">Work With Us</a>
+                <a href="#contact">Contact</a>
+                <a href="#book-now" class="book-now-btn">Book Now</a>
+            </nav>
+            <div class="mobile-menu" onclick="alert('Mobile menu - add navigation here')">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+    </header>
+
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h2 class="fun-heading">Welcome to Funhouse Camp! 🎉</h2>
+            <p class="hero-subtitle">Where holidays transform into unforgettable adventures filled with fun, friendship, and freedom!</p>
+            <img src="logo.png" alt="Funhouse Camp Logo" style="width: 240px; height: 240px; margin: -50px auto 0px; display: block;">
+            <div class="hero-features">
+                <div class="hero-feature">
+                    <div class="hero-feature-icon">👧👦</div>
+                    <h3>Ages 4-11</h3>
+                    <p>Reception to Year 6</p>
+                </div>
+                <div class="hero-feature">
+                    <div class="hero-feature-icon">📅</div>
+                    <h3>School Holidays</h3>
+                    <p>All holiday periods</p>
+                </div>
+                <div class="hero-feature">
+                    <div class="hero-feature-icon">📍</div>
+                    <h3>Sunnyhill Primary</h3>
+                    <p>Great location</p>
+                </div>
+                <div class="hero-feature">
+                    <div class="hero-feature-icon">⏰</div>
+                    <h3>9am - 4pm</h3>
+                    <p>Extended care available</p>
+                </div>
+            </div>
+            <div class="cta-buttons">
+                <a href="#book-now" class="btn-primary">Book Your Place Today</a>
+                <a href="#about" class="btn-secondary">Learn More</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="section">
+        <h2 class="section-title">About Funhouse Camp</h2>
+        <p class="section-subtitle">We believe holidays should be a sacred time for unwinding, recharging, and unforgettable fun!</p>
+        <div class="about-grid">
+            <div class="about-card" style="background: var(--mint);" id="who-we-are">
+                <h3><span class="about-card-icon">👥</span> Who We Are</h3>
+                <p>We Get It. Our team is composed of qualified, experienced educators. We've seen firsthand how much energy goes into a school term, and that knowledge drives our entire mission. We believe holidays should be a sacred time for unwinding, recharging, and unforgettable fun! We intentionally swap out structured learning for an exciting, vibrant environment where the focus is 100% on unstructured play, exploration, and giving every child the freedom to just be themselves.</p>
+            </div>
+            <div class="about-card" style="background: var(--lavender);" id="our-mission">
+                <h3><span class="about-card-icon">🎯</span> Our Mission</h3>
+                <p>At Funhouse Camp, our mission is to provide the ultimate holiday break—a safe, joyful, and liberating space where every child can truly unwind, recharge, and be themselves. We're committed to fostering an exciting environment where structured learning gives way to unstructured play, exploration, and the simple joy of childhood. Our goal is for every child to leave our doors having built lasting friendships and unforgettable memories.</p>
+            </div>
+        </div>
+        <div class="quick-info" id="quick-info">
+            <h3 class="fun-heading">Quick Info</h3>
+            <div class="info-grid" style="grid-template-columns: repeat(3, 1fr);">
+                <div class="info-item"><strong>Who Can Attend?</strong>Children aged 4 to 11 (Reception to Year 6)</div>
+                <div class="info-item"><strong>When We Run:</strong>School holidays</div>
+                <div class="info-item"><strong>Where:</strong>Sunnyhill Primary School</div>
+            </div>
+            <div class="info-grid" style="grid-template-columns: repeat(2, 1fr); margin-top: 25px;">
+                <div class="info-item"><strong>Standard Day:</strong>9:00 AM – 4:00 PM</div>
+                <div class="info-item"><strong>Extended Care:</strong>8:15 AM – 5:15 PM (additional cost)</div>
+            </div>
+        </div>
+    </section>
+
+    <section id="activities" class="section" style="background: #f9fafb;">
+        <h2 class="section-title">Our Amazing Activities</h2>
+        <p class="section-subtitle">Every day is packed with exciting activities designed to let children explore, play, and make lasting memories!</p>
+        <div class="activities-grid">
+            <div class="activity-card" id="sports-games">
+                <img src="sports-games.jpg" alt="Sports & Games" class="activity-image">
+                <div class="activity-content">
+                    <h3>🏃 Sports & Games</h3>
+                    <p>Football, basketball, team sports and energetic outdoor activities that get hearts racing and smiles beaming!</p>
+                </div>
+            </div>
+            <div class="activity-card" id="arts-crafts">
+                <img src="arts-crafts.jpg" alt="Arts & Crafts" class="activity-image">
+                <div class="activity-content">
+                    <h3>🎨 Arts & Crafts</h3>
+                    <p>Creative projects, painting, drawing and hands-on making where imagination comes to life!</p>
+                </div>
+            </div>
+            <div class="activity-card" id="drama-performance">
+                <img src="drama-performance.jpg" alt="Drama & Performance" class="activity-image">
+                <div class="activity-content">
+                    <h3>🎭 Drama & Performance</h3>
+                    <p>Role-play, theater games and confidence building activities that bring out every child's star quality!</p>
+                </div>
+            </div>
+            <div class="activity-card" id="outdoor-adventures">
+                <img src="outdoor-adventures.jpg" alt="Outdoor Adventures" class="activity-image">
+                <div class="activity-content">
+                    <h3>🌳 Outdoor Adventures</h3>
+                    <p>Nature exploration, scavenger hunts and outdoor challenges that make every day an adventure!</p>
+                </div>
+            </div>
+            <div class="activity-card" id="team-challenges">
+                <img src="team-challenges.jpg" alt="Team Challenges" class="activity-image">
+                <div class="activity-content">
+                    <h3>🧩 Team Challenges</h3>
+                    <p>Problem-solving activities and collaborative games that build friendships and teamwork skills!</p>
+                </div>
+            </div>
+            <div class="activity-card" id="free-play">
+                <img src="free-play.jpg" alt="Free Play Time" class="activity-image">
+                <div class="activity-content">
+                    <h3>🎮 Free Play Time</h3>
+                    <p>Unstructured play where children choose their own adventures and explore at their own pace!</p>
+                </div>
+            </div>
+        </div>
+        <div style="background: var(--sky-blue); padding: 40px; border-radius: 25px; margin-top: 50px;" id="daily-schedule">
+            <h3 class="fun-heading" style="text-align: center; font-size: 32px; margin-bottom: 30px;">Daily Schedule</h3>
+            <div class="schedule-table">
+                <div class="schedule-row"><div class="schedule-time">8:15 AM</div><div class="schedule-activity">Extended Care Arrival</div></div>
+                <div class="schedule-row"><div class="schedule-time">9:00 AM</div><div class="schedule-activity">Standard Day Begins - Morning Activities</div></div>
+                <div class="schedule-row"><div class="schedule-time">12:00 PM</div><div class="schedule-activity">Lunch & Free Play</div></div>
+                <div class="schedule-row"><div class="schedule-time">1:00 PM</div><div class="schedule-activity">Afternoon Activities & Adventures</div></div>
+                <div class="schedule-row"><div class="schedule-time">4:00 PM</div><div class="schedule-activity">Standard Day Collection</div></div>
+                <div class="schedule-row"><div class="schedule-time">5:15 PM</div><div class="schedule-activity">Extended Care Collection</div></div>
+            </div>
+        </div>
+    </section>
+
+    <section id="parents" class="section">
+        <h2 class="section-title">For Parents & Carers</h2>
+        <p class="section-subtitle">Your child's safety and well-being are our absolute priority</p>
+        <div style="background: var(--mint); padding: 50px; border-radius: 25px; margin-bottom: 40px;" id="safety-wellbeing">
+            <h3 class="fun-heading" style="font-size: 36px; margin-bottom: 30px; text-align: center;">🛡️ Safety & Well-being</h3>
+            <p style="text-align: center; margin-bottom: 40px; font-size: 18px;">Your child's safety and emotional well-being are our number one priority. We pursue excellence in everything we do.</p>
+            <div class="safety-grid">
+                <div class="safety-card">
+                    <h4>Staff Expertise & Ratios</h4>
+                    <ul>
+                        <li>Highly qualified, experienced, and DBS-vetted staff</li>
+                        <li>Low coach-to-child ratios</li>
+                        <li>In-house safeguarding training</li>
+                        <li>Paediatric first aiders on site daily</li>
+                    </ul>
+                </div>
+                <div class="safety-card">
+                    <h4>Operational Safety</h4>
+                    <ul>
+                        <li>Risk assessments for all activities</li>
+                        <li>Rigorous sign-in/out procedures</li>
+                        <li>Regular equipment checks</li>
+                        <li>Mandatory water and shade breaks</li>
+                    </ul>
+                </div>
+                <div class="safety-card">
+                    <h4>Allergy Management</h4>
+                    <ul>
+                        <li>Strict No-Nut Policy</li>
+                        <li>Clear medication protocols</li>
+                        <li>Staff trained in allergy response</li>
+                        <li>EpiPens and inhalers properly stored</li>
+                    </ul>
+                </div>
+                <div class="safety-card">
+                    <h4>Well-being Protocols</h4>
+                    <ul>
+                        <li>Zero-tolerance bullying policy</li>
+                        <li>Staff trained as "Upstanders"</li>
+                        <li>Safe Share Box for children</li>
+                        <li>Culture of listening and support</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div style="background: var(--lavender); padding: 50px; border-radius: 25px; margin-bottom: 40px;" id="send-inclusion">
+            <h3 class="fun-heading" style="font-size: 36px; margin-bottom: 20px; text-align: center;">⭐ SEND Inclusion</h3>
+            <p style="text-align: center; margin-bottom: 40px; font-size: 18px; font-weight: 600;">Your Child Belongs Here</p>
+            <p style="text-align: center; margin-bottom: 40px; color: #555;">Funhouse Camp is designed to be a safe, welcoming, and exciting place for every child, regardless of their unique needs or challenges. Our goal isn't just to include children with Special Educational Needs and Disabilities (SEND)—it's to make sure they thrive.</p>
+            <div class="safety-grid">
+                <div class="safety-card">
+                    <h4>Dedicated Staff & Personalized Care</h4>
+                    <p>Low ratios for high support, expert inclusion training for all staff, and we listen to your child's individual needs before they arrive. When you book online, you can easily share any essential medical or support information.</p>
+                </div>
+                <div class="safety-card">
+                    <h4>Activities Designed for All</h4>
+                    <p>Our programme design is built on the idea that every child learns differently. We use a flexible approach with multiple ways to participate, using simple language, clear visual cues, and modified equipment as needed.</p>
+                </div>
+                <div class="safety-card">
+                    <h4>Fostering True Friendship</h4>
+                    <p>Thoughtful grouping considering needs and social dynamics. We establish clear expectations for positive communication and inclusive behaviour so all children build a welcoming community.</p>
+                </div>
+            </div>
+        </div>
+        <div style="background: var(--pink); padding: 50px; border-radius: 25px;" id="safeguarding-commitment">
+            <h3 class="fun-heading" style="font-size: 36px; margin-bottom: 30px; text-align: center;">🔒 Safeguarding Commitment</h3>
+            <p style="text-align: center; margin-bottom: 40px; font-size: 16px;">At Funhouse Camp, the safeguarding of every child is the responsibility of everyone.</p>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px;">
+                <div style="background: white; padding: 35px; border-radius: 20px; text-align: center;">
+                    <div style="font-size: 60px; margin-bottom: 15px;">🏛️</div>
+                    <h4 style="font-size: 20px; margin-bottom: 15px; color: var(--teal);">Ofsted Registered</h4>
+                    <p style="color: #666;">We are registered with Ofsted, which means we are inspected and assessed by the official UK government regulator to ensure our policies, practices, and premises meet all required standards for safety and quality.</p>
+                </div>
+                <div style="background: white; padding: 35px; border-radius: 20px; text-align: center;">
+                    <div style="font-size: 60px; margin-bottom: 15px;">✅</div>
+                    <h4 style="font-size: 20px; margin-bottom: 15px; color: var(--teal);">Enhanced DBS Checks</h4>
+                    <p style="color: #666;">All of our staff have enhanced Disclosure and Barring Service (DBS) checks, which means they have undergone the highest level of criminal record and police information scrutiny available.</p>
+                </div>
+                <div style="background: white; padding: 35px; border-radius: 20px; text-align: center;">
+                    <div style="font-size: 60px; margin-bottom: 15px;">📚</div>
+                    <h4 style="font-size: 20px; margin-bottom: 15px; color: var(--teal);">Expert Training</h4>
+                    <p style="color: #666;">Staff receive mandatory safeguarding training to ensure they are fully up-to-date with the latest Keeping Children Safe in Education (KCSIE) guidelines.</p>
+                </div>
+            </div>
+            <div style="text-align: center; margin-top: 30px;">
+                <a href="safeguarding.html" style="display: inline-block; background: white; color: var(--teal); padding: 15px 35px; border-radius: 30px; text-decoration: none; font-weight: 600;">Read Full Safeguarding Policy</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="faq" class="section" style="background: #f9fafb;">
+        <h2 class="section-title">Frequently Asked Questions</h2>
+        <p class="section-subtitle">Got questions? We've got answers!</p>
+        <div class="faq-container">
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFAQ(this)">What is Funhouse Camp?<span style="font-size: 24px;">+</span></div>
+                <div class="faq-answer">Funhouse Camp is a holiday camp dedicated to providing a safe, joyful, and liberating space for children during school breaks. Our mission is to swap structured learning for unstructured play and exploration, ensuring every child can truly unwind and recharge. Our slogan is: "Your Home for Holiday Fun."</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFAQ(this)">Where is the camp held?<span style="font-size: 24px;">+</span></div>
+                <div class="faq-answer">The camp is held at Sunnyhill Primary School.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFAQ(this)">What are the operating hours?<span style="font-size: 24px;">+</span></div>
+                <div class="faq-answer">Standard Day: 9:00 AM – 4:00 PM. Extended Care: Available from 8:15 AM to 5:15 PM (additional cost applies).</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFAQ(this)">What age groups can attend?<span style="font-size: 24px;">+</span></div>
+                <div class="faq-answer">We welcome children aged 4 to 11, typically covering Reception to Year 6.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFAQ(this)">What should my child bring to camp?<span style="font-size: 24px;">+</span></div>
+                <div class="faq-answer">Please ensure your child has: A packed lunch (must be No-Nut) and a reusable water bottle, suitable clothing for all weather including a raincoat, sun cream, a change of clothes. They should wear trainers and must not wear any jewellery for safety reasons. We advise against bringing valuables.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFAQ(this)">What is your policy on mobile phones?<span style="font-size: 24px;">+</span></div>
+                <div class="faq-answer">To ensure a focused environment for play and socializing, children are not permitted to use mobile phones, tablets, or other electronic devices while attending Funhouse Camp.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFAQ(this)">Are your staff qualified and background-checked?<span style="font-size: 24px;">+</span></div>
+                <div class="faq-answer">Yes. Our team is composed of qualified, experienced educators who have undergone Enhanced DBS checks (Disclosure and Barring Service). They also receive mandatory, up-to-date safeguarding training on the Keeping Children Safe in Education (KCSIE) guidelines.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFAQ(this)">Is Funhouse Camp regulated?<span style="font-size: 24px;">+</span></div>
+                <div class="faq-answer">Yes, we are Ofsted Registered. This means our policies, practices, and premises are inspected and assessed by the official UK government regulator to ensure we meet all required standards for safety and quality.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFAQ(this)">What is your approach to safety and first aid?<span style="font-size: 24px;">+</span></div>
+                <div class="faq-answer">Your child's safety is our number one priority. We maintain low coach-to-child ratios, conduct risk assessments for all activities, and use a rigorous Sign-In/Out and Headcount system throughout the day. A Paediatric First Aider is always on site.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFAQ(this)">Do you have a policy on allergies?<span style="font-size: 24px;">+</span></div>
+                <div class="faq-answer">Yes, we enforce a strict No-Nut Policy across all clubs to protect children with severe allergies. Parents must ensure all packed foods are nut-free. We also follow a clear, written protocol for collecting, storing, and dispensing prescribed medication.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFAQ(this)">How do you support children with SEND?<span style="font-size: 24px;">+</span></div>
+                <div class="faq-answer">We are committed to full inclusion. We maintain low ratios for high support, and all staff receive Inclusion Training. When you book, you can share essential support information, which is then added to our registers so staff are fully prepared to adapt activities and ensure your child thrives.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFAQ(this)">How do I secure a place for my child?<span style="font-size: 24px;">+</span></div>
+                <div class="faq-answer">Places are sold on a first-come, first-served basis. Your child's place is only confirmed once full payment has been received. Payment must be completed 14 days prior to the club start date.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFAQ(this)">What is your cancellation policy?<span style="font-size: 24px;">+</span></div>
+                <div class="faq-answer">If you need to cancel, we offer a full refund provided you notify Funhouse Camp at least 48 hours in advance of the club start time. We do not issue refunds for non-attendance due to illness or other events outside of our control.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFAQ(this)">What happens if I am late collecting my child?<span style="font-size: 24px;">+</span></div>
+                <div class="faq-answer">Children must be collected promptly at the scheduled time (4:00 PM or 5:15 PM for extended care). A late pick-up fee will be charged immediately for any late collection. If a child is collected late on three or more occasions, we reserve the right to terminate the enrollment.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFAQ(this)">Is my child required to be toilet trained?<span style="font-size: 24px;">+</span></div>
+                <div class="faq-answer">Yes, all children enrolled are expected to be toilet trained, meaning they can use the toilet independently. While we understand occasional accidents happen, we reserve the right to discuss alternative arrangements or cancel future days if a child has frequent accidents and does not have special needs affecting their training.</div>
+            </div>
+        </div>
+    </section>
+
+    <section id="book-now" class="section">
+        <h2 class="section-title" style="text-align: center; position: relative; left: 0; transform: none; display: block;">Book Your Place</h2>
+        <p class="section-subtitle">Ready to give your child an unforgettable holiday experience?</p>
+        <div style="text-align: center; max-width: 900px; margin: 0 auto;">
+            <div style="background: var(--lemon); padding: 50px; border-radius: 25px; margin-bottom: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
+                <h3 class="fun-heading" style="font-size: 32px; margin-bottom: 25px;">📋 Booking Information</h3>
+                <div style="text-align: left; max-width: 600px; margin: 0 auto;">
+                    <p style="padding: 12px 0; font-size: 16px;"><strong>✓</strong> Places are sold on a first-come, first-served basis</p>
+                    <p style="padding: 12px 0; font-size: 16px;"><strong>✓</strong> Payment must be received 14 days prior to camp start date</p>
+                    <p style="padding: 12px 0; font-size: 16px;"><strong>✓</strong> Full refund available with 48 hours notice</p>
+                    <p style="padding: 12px 0; font-size: 16px;"><strong>✓</strong> Your child's place is confirmed once full payment is received</p>
+                </div>
+                
+            </div>
+            <div style="background: var(--sky-blue); padding: 50px; border-radius: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
+                <p style="font-size: 20px; margin-bottom: 30px; font-weight: 500;">To book your place or request pricing information, please contact us directly.</p>
+                <a href="#contact" class="btn-primary" style="display: inline-block;">Contact Us to Book</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="section" style="background: #f9fafb;">
+        <h2 class="section-title">Get In Touch</h2>
+        <p class="section-subtitle">We'd love to hear from you!</p>
+        <div class="contact-grid">
+            </div>
+            <div class="contact-card" style="background: var(--lavender);">
+                <div class="contact-icon">✉️</div>
+                <h3>Email</h3>
+                <p style="font-size: 18px; font-weight: 600;">info@funhousecamp.com</p>
+                <p>We'll respond within 24 hours</p>
+            </div>
+            <div class="contact-card" style="background: var(--lemon);">
+                <div class="contact-icon">📍</div>
+                <h3>Location</h3>
+                <p style="font-size: 18px; font-weight: 600;">Sunnyhill Primary School</p>
+                <p>Easy to find and access</p>
+            </div>
+        </div>
+        <div style="background: white; padding: 50px; border-radius: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); max-width: 700px; margin: 40px auto;">
+            <h3 class="fun-heading" style="font-size: 32px; margin-bottom: 20px; text-align: center;">Send Us an Enquiry</h3>
+            <p style="text-align: center; margin-bottom: 30px; color: #666;">Have questions? Want to book? Click below to send us an email!</p>
+            <div style="text-align: center;">
+                <a href="mailto:info@funhousecamp.com?subject=Funhouse Camp Enquiry" class="btn-primary" style="display: inline-block;">Send Email Enquiry</a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <img src="logo.png" alt="Funhouse Camp" class="footer-logo">
+            <h3 class="fun-heading">Funhouse Camp</h3>
+            <p style="font-weight: 600;">Your Home for Holiday Fun</p>
+            <p>Sunnyhill Primary School</p>
+            <p>Ofsted Registered</p>
+            <div class="footer-links">
+                <a href="#home">Home</a>
+                <a href="#about">About Us</a>
+                <a href="#activities">Activities</a>
+                <a href="#parents">Parents</a>
+                <a href="#faq">FAQ</a>
+                <a href="work-with-us.html">Work With Us</a>
+                <a href="terms.html">Terms & Conditions</a>
+                <a href="privacy.html">Privacy Policy</a>
+                <a href="#contact">Contact</a>
+            </div>
+            <div class="copyright">
+                <p>© 2025 Funhouse Camp. All rights reserved.</p>
+                <p>Registered with Ofsted | All staff DBS checked</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function toggleFAQ(element) {
+            const answer = element.nextElementSibling;
+            const icon = element.querySelector('span');
+            answer.classList.toggle('active');
+            icon.textContent = answer.classList.contains('active') ? '−' : '+';
+        }
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const target = document.querySelector(targetId);
+                if (target) {
+                    const headerHeight = document.querySelector('.header').offsetHeight;
+                    const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - headerHeight - 20;
+                    window.scrollTo({
+                        top: targetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
