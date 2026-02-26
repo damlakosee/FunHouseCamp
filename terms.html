@@ -13,7 +13,34 @@
         .logo-section { display: flex; align-items: center; gap: 15px; }
         .logo { width: 60px; }
         h1 { font-family: 'Fredoka', sans-serif; font-size: 24px; }
-        .back-btn { background: #FEB7D3; color: white; padding: 12px 30px; border-radius: 30px; text-decoration: none; font-weight: 600; }
+        
+        /* Desktop Back Button */
+        .back-btn { background: #FEB7D3; color: white; padding: 12px 30px; border-radius: 30px; text-decoration: none; font-weight: 600; transition: 0.3s; }
+        .back-btn:hover { background: #f8a0c2; }
+
+        /* Mobile Menu Trigger */
+        .mobile-menu-trigger { display: none; cursor: pointer; flex-direction: column; gap: 5px; padding: 10px; }
+        .bar { width: 25px; height: 3px; background: #333; border-radius: 2px; }
+
+        /* Mobile Overlay Styles */
+        .mobile-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: white;
+            z-index: 2000;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+        }
+        .mobile-overlay.active { display: flex; }
+        .mobile-overlay a { font-family: 'Fredoka', sans-serif; font-size: 28px; text-decoration: none; color: #333; }
+        .close-btn { position: absolute; top: 20px; right: 30px; font-size: 40px; cursor: pointer; }
+
         .container { max-width: 1000px; margin: 50px auto; padding: 0 20px; }
         .page-title { font-size: 48px; text-align: center; margin-bottom: 20px; font-family: 'Fredoka', sans-serif; }
         .last-updated { text-align: center; color: #666; margin-bottom: 50px; }
@@ -23,6 +50,13 @@
         .terms-section ul { margin-left: 25px; margin-bottom: 15px; }
         .terms-section li { margin-bottom: 10px; }
         .highlight-box { background: #FFEDA9; padding: 20px; border-radius: 15px; margin: 20px 0; border-left: 4px solid #FF9B6A; }
+
+        @media (max-width: 768px) {
+            .page-title { font-size: 36px; }
+            .back-btn { display: none; }
+            .mobile-menu-trigger { display: flex; }
+            .terms-section { padding: 25px; }
+        }
     </style>
 </head>
 <body>
@@ -35,9 +69,24 @@
                     <p style="font-size: 14px; color: #5BBFB8;">Your Home for Holiday Fun</p>
                 </div>
             </div>
+            
             <a href="index.html" class="back-btn">← Back to Home</a>
+
+            <div class="mobile-menu-trigger" onclick="toggleMobileMenu()">
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+            </div>
         </div>
     </header>
+
+    <div id="mobile-overlay" class="mobile-overlay">
+        <div class="close-btn" onclick="toggleMobileMenu()">×</div>
+        <a href="index.html" onclick="toggleMobileMenu()">Home</a>
+        <a href="work-with-us.html" onclick="toggleMobileMenu()">Work With Us</a>
+        <a href="terms.html" onclick="toggleMobileMenu()">Terms</a>
+        <a href="privacy.html" onclick="toggleMobileMenu()">Privacy</a>
+    </div>
 
     <div class="container">
         <h1 class="page-title">Terms & Conditions</h1>
@@ -54,7 +103,7 @@
             <ul>
                 <li><strong>Admission:</strong> A child will only be allowed to attend once full payment has been received. Places are sold on a first-come, first-served basis.</li>
                 <li><strong>Payment Deadline:</strong> Payment must be received 14 days prior to the club start date, unless alternative arrangements have been agreed upon booking.</li>
-                <li><strong>Cancellation by Parent:</strong> If Funhouse Camp receives a cancellation request at least 48 hours in advance of the club start time, we will offer a full refund. Funhouse Camp is not responsible for non-attendance due to illness or other events outside of our control.</li>
+                <li><strong>Cancellation by Parent:</strong> If Funhouse Camp receives a cancellation request at least 48 hours in advance of the club start time, we will offer a full refund.</li>
                 <li><strong>Cancellation by Funhouse Camp:</strong> If Funhouse Camp cancels a club for any reason, we will issue a full refund within 28 days.</li>
             </ul>
         </div>
@@ -62,75 +111,31 @@
         <div class="terms-section">
             <h2>3. Medical Information and Health</h2>
             <h3>First Aid</h3>
-            <p>A Paediatric First Aider will be present at every session. By agreeing to these terms, you give permission for Funhouse Camp staff to administer first aid to your child should injury or illness occur, within their capabilities.</p>
-            <h3>Medication</h3>
-            <p>If your child requires prescribed medication (must have the pharmacy sticker attached), you must complete a 'permission to administer medicine' form at sign-in. Staff will not administer non-prescription medication except in exceptional, pre-agreed circumstances.</p>
+            <p>A Paediatric First Aider will be present at every session. By agreeing to these terms, you give permission for Funhouse Camp staff to administer first aid to your child should injury or illness occur.</p>
             <h3>Allergies & No-Nut Policy</h3>
-            <div class="highlight-box"><strong>⚠️ IMPORTANT:</strong> You must inform Funhouse Camp of all allergies and relevant medical conditions on the booking form. All Funhouse Camp clubs are strictly No-Nut zones, and you must not pack any nut-containing foods for your child.</div>
-            <h3>Serious Accidents</h3>
-            <p>In the event of a serious accident where emergency contact cannot be reached, Funhouse Camp will call an ambulance and ensure the child is accompanied by an adult. You will be informed if an accident has occurred, with details entered into our accident log.</p>
+            <div class="highlight-box"><strong>⚠️ IMPORTANT:</strong> All Funhouse Camp clubs are strictly No-Nut zones. You must not pack any nut-containing foods for your child.</div>
             <h3>Illness</h3>
-            <p>Your child must not attend if they have a fever, severe cough, or have experienced vomiting or diarrhoea in the past 24 hours. If your child becomes unwell during the session, staff will contact you immediately, and you are responsible for arranging the child's prompt collection.</p>
+            <p>Your child must not attend if they have a fever, severe cough, or have experienced vomiting or diarrhoea in the past 24 hours.</p>
         </div>
 
         <div class="terms-section">
             <h2>4. Supervision and Behaviour</h2>
             <h3>Child Protection</h3>
-            <p>All Funhouse Camp coaches have attended Safeguarding training. Any child protection issues will be referred to the Club Coordinator and, if necessary, the Funhouse Camp Safeguarding Officer, in line with statutory safeguarding guidelines.</p>
+            <p>All Funhouse Camp coaches have attended Safeguarding training. Any child protection issues will be referred to the Safeguarding Officer.</p>
             <h3>Unacceptable Behaviour</h3>
-            <p>Staff follow our Behaviour Management guidelines. Funhouse Camp reserves the right to ask a parent to remove a child without notice if the child's behaviour is unmanageable or has a negative effect on other children.</p>
+            <p>Funhouse Camp reserves the right to ask a parent to remove a child without notice if the child's behaviour is unmanageable.</p>
         </div>
 
         <div class="terms-section">
             <h2>5. Drop-off and Collection</h2>
-            <ul>
-                <li><strong>Collection Permission:</strong> Funhouse Camp must be informed in advance of all individuals who have permission to collect your child.</li>
-                <li><strong>Up-to-Date Details:</strong> It is the parent/carer's responsibility to keep contact details and medical information current on the application form.</li>
-            </ul>
             <div class="highlight-box">
                 <h3 style="margin-top: 0;">Late Collection Policy</h3>
-                <p>We require all children to be collected promptly at the scheduled time (4:00 PM for the standard day, 5:15 PM for extended care). A late pick-up fee will be charged immediately for any late collection and this must be settled before a child can attend any future camp days.</p>
-                <p><strong>Important:</strong> If a child is collected late on three or more occasions, this is a breach of our terms, and we reserve the right to immediately terminate the child's enrollment without refund for any remaining days.</p>
-                <p>For the safety of the child, if a child is uncollected for more than one hour after closing, we are required to contact the Social Services Emergency Duty Line.</p>
+                <p>We require all children to be collected promptly at the scheduled time. A late pick-up fee will be charged immediately for any late collection.</p>
             </div>
         </div>
 
         <div class="terms-section">
-            <h2>6. Practical Requirements</h2>
-            <h3>Appropriate Clothing</h3>
-            <p>Parents must provide suitable clothing for all weather, including a raincoat, suncream, and a change of clothes. Children should wear trainers and must avoid flimsy footwear (e.g., sandals).</p>
-            <h3>Jewellery</h3>
-            <p>Children are not permitted to wear any jewellery for safety reasons. Long hair must be tied back.</p>
-            <h3>Valuables</h3>
-            <div class="highlight-box"><strong>⚠️ Important:</strong> We advise children not to bring any valuable items or precious belongings. Funhouse Camp is not responsible for the loss or damage of any personal items.</div>
-        </div>
-
-        <div class="terms-section">
-            <h2>7. Toilet Training</h2>
-            <h3>Requirement</h3>
-            <p>All children enrolled are expected to be toilet trained, meaning they can use the toilet independently (including managing clothing and hygiene).</p>
-            <h3>Accidents</h3>
-            <p>We understand occasional accidents happen; however, if a child has frequent accidents or is not effectively trained, we may request a meeting to discuss a solution. We reserve the right to cancel future days until the child is suitably trained.</p>
-            <h3>Exceptions</h3>
-            <p>We are committed to inclusivity and will work with families whose children have special needs affecting their toilet training. This must be discussed in advance.</p>
-        </div>
-
-        <div class="terms-section">
-            <h2>8. Complaints and Feedback</h2>
-            <h3>Process</h3>
-            <p>We aim to resolve all complaints quickly. In the first instance, raise the issue with the Club Coordinator.</p>
-            <h3>Formal Complaints</h3>
-            <p>If the matter is not resolved, please put your complaint in writing to the Club Coordinator, including names, dates, times, and a description of your concern. We will acknowledge and investigate your complaint within 28 days.</p>
-        </div>
-
-        <div class="terms-section">
-            <h2>9. Photography and Filming</h2>
-            <div class="highlight-box"><strong>⚠️ Strict Policy:</strong> No parent, guardian, or other spectator is permitted to use photography or video recording devices during the sessions. Any individual who does so will be asked to stop and may be removed if they refuse.</div>
-        </div>
-
-        <div class="terms-section">
             <h2>Contact Information</h2>
-            <p>If you have any questions about these Terms & Conditions, please contact us:</p>
             <ul>
                 <li><strong>Email:</strong> info@funhousecamp.com</li>
                 <li><strong>Address:</strong> Sunnyhill Primary School</li>
@@ -146,5 +151,12 @@
         <p style="margin: 5px 0;">© 2025 Funhouse Camp. All rights reserved.</p>
         <p style="margin: 5px 0;">Ofsted Registered | DBS Checked Staff</p>
     </footer>
+
+    <script>
+        function toggleMobileMenu() {
+            const overlay = document.getElementById('mobile-overlay');
+            overlay.classList.toggle('active');
+        }
+    </script>
 </body>
 </html>

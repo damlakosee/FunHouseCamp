@@ -13,7 +13,34 @@ body { font-family: 'Poppins', sans-serif; line-height: 1.8; color: #333; }
 .logo-section { display: flex; align-items: center; gap: 15px; }
 .logo { width: 60px; }
 h1 { font-family: 'Fredoka', sans-serif; font-size: 24px; }
-.back-btn { background: #FEB7D3; color: white; padding: 12px 30px; border-radius: 30px; text-decoration: none; font-weight: 600; }
+
+/* Desktop Back Button */
+.back-btn { background: #FEB7D3; color: white; padding: 12px 30px; border-radius: 30px; text-decoration: none; font-weight: 600; transition: 0.3s; }
+.back-btn:hover { background: #f8a0c2; }
+
+/* Mobile Menu Trigger */
+.mobile-menu-trigger { display: none; cursor: pointer; flex-direction: column; gap: 5px; padding: 10px; }
+.bar { width: 25px; height: 3px; background: #333; border-radius: 2px; }
+
+/* Mobile Overlay Styles */
+.mobile-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: white;
+    z-index: 2000;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+}
+.mobile-overlay.active { display: flex; }
+.mobile-overlay a { font-family: 'Fredoka', sans-serif; font-size: 28px; text-decoration: none; color: #333; font-weight: 600; }
+.close-btn { position: absolute; top: 20px; right: 30px; font-size: 40px; cursor: pointer; }
+
 .container { max-width: 1000px; margin: 50px auto; padding: 0 20px; }
 .page-title { font-size: 48px; text-align: center; margin-bottom: 20px; font-family: 'Fredoka', sans-serif; }
 .last-updated { text-align: center; color: #666; margin-bottom: 50px; }
@@ -23,6 +50,13 @@ h1 { font-family: 'Fredoka', sans-serif; font-size: 24px; }
 .privacy-section ul { margin-left: 25px; margin-bottom: 15px; }
 .privacy-section li { margin-bottom: 10px; }
 .highlight-box { background: #AAE9E5; padding: 20px; border-radius: 15px; margin: 20px 0; border-left: 4px solid #5BBFB8; }
+
+@media (max-width: 768px) {
+    .page-title { font-size: 36px; }
+    .back-btn { display: none; }
+    .mobile-menu-trigger { display: flex; }
+    .privacy-section { padding: 25px; }
+}
 </style>
 </head>
 <body>
@@ -36,12 +70,29 @@ h1 { font-family: 'Fredoka', sans-serif; font-size: 24px; }
 </div>
 </div>
 <a href="index.html" class="back-btn">← Back to Home</a>
+
+<div class="mobile-menu-trigger" onclick="toggleMobileMenu()">
+    <div class="bar"></div>
+    <div class="bar"></div>
+    <div class="bar"></div>
+</div>
 </div>
 </header>
+
+<div id="mobile-overlay" class="mobile-overlay">
+    <div class="close-btn" onclick="toggleMobileMenu()">×</div>
+    <a href="index.html" onclick="toggleMobileMenu()">Home</a>
+    <a href="work-with-us.html" onclick="toggleMobileMenu()">Work With Us</a>
+    <a href="terms.html" onclick="toggleMobileMenu()">Terms</a>
+    <a href="privacy.html" onclick="toggleMobileMenu()">Privacy</a>
+    <a href="safeguarding.html" onclick="toggleMobileMenu()">Safeguarding</a>
+</div>
+
 <div class="container">
 <h1 class="page-title">Privacy Policy</h1>
 <p class="last-updated">Last Updated: January 2025</p>
-<div class="highlight-box"><strong>Your Privacy Matters:</strong> Funhouse Camp is committed to protecting the privacy and security of your personal information. This policy explains how we collect, use, and protect your data.</div>
+<div class="highlight-box"><strong>Your Privacy Matters:</strong> Funhouse Camp is committed to protecting the privacy and security of your personal information.</div>
+
 <div class="privacy-section">
 <h2>1. Information We Collect</h2>
 <p>When you register your child for Funhouse Camp, we collect the following information:</p>
@@ -50,7 +101,6 @@ h1 { font-family: 'Fredoka', sans-serif; font-size: 24px; }
 <li>Full name and date of birth</li>
 <li>Medical information (allergies, conditions, medications)</li>
 <li>Dietary requirements</li>
-<li>Special educational needs or disabilities (SEND)</li>
 <li>Emergency contact details</li>
 </ul>
 <h3>Parent/Guardian Information:</h3>
@@ -58,115 +108,42 @@ h1 { font-family: 'Fredoka', sans-serif; font-size: 24px; }
 <li>Full name and contact details</li>
 <li>Email address and phone number</li>
 <li>Home address</li>
-<li>Payment information (processed securely)</li>
 </ul>
 </div>
+
 <div class="privacy-section">
 <h2>2. How We Use Your Information</h2>
-<p>We use your information for the following purposes:</p>
 <ul>
-<li><strong>Camp Operations:</strong> To provide a safe and appropriate camp experience for your child</li>
-<li><strong>Health & Safety:</strong> To respond to medical needs and emergencies</li>
-<li><strong>Communication:</strong> To contact you about bookings, updates, and important information</li>
-<li><strong>Compliance:</strong> To meet our legal obligations under safeguarding and Ofsted requirements</li>
-<li><strong>Improvement:</strong> To improve our services based on feedback</li>
+<li><strong>Camp Operations:</strong> To provide a safe experience</li>
+<li><strong>Health & Safety:</strong> To respond to medical needs</li>
+<li><strong>Compliance:</strong> To meet legal and Ofsted requirements</li>
 </ul>
 </div>
-<div class="privacy-section">
-<h2>3. Data Protection & Security</h2>
-<p>We take data security seriously and implement appropriate measures to protect your information:</p>
-<ul>
-<li>All data is stored securely on encrypted systems</li>
-<li>Access is restricted to authorized staff only</li>
-<li>Payment information is processed through secure, PCI-compliant systems</li>
-<li>Physical documents are stored in locked cabinets</li>
-<li>Staff receive regular data protection training</li>
-</ul>
-</div>
-<div class="privacy-section">
-<h2>4. Who We Share Your Information With</h2>
-<p>We will only share your information when necessary and lawful to do so:</p>
-<ul>
-<li><strong>Emergency Services:</strong> In case of medical emergency</li>
-<li><strong>Safeguarding Authorities:</strong> If we have concerns about a child's welfare</li>
-<li><strong>Ofsted:</strong> As required for our registration and inspections</li>
-<li><strong>Payment Processors:</strong> To process booking payments securely</li>
-</ul>
-<div class="highlight-box"><strong>We will never:</strong> Sell your data to third parties or use it for marketing purposes without your explicit consent.</div>
-</div>
-<div class="privacy-section">
-<h2>5. Your Rights (UK GDPR)</h2>
-<p>Under UK data protection law, you have the following rights:</p>
-<ul>
-<li><strong>Right to Access:</strong> Request a copy of the personal data we hold about you</li>
-<li><strong>Right to Rectification:</strong> Request corrections to inaccurate information</li>
-<li><strong>Right to Erasure:</strong> Request deletion of your data (subject to legal obligations)</li>
-<li><strong>Right to Restrict Processing:</strong> Request that we limit how we use your data</li>
-<li><strong>Right to Object:</strong> Object to certain types of processing</li>
-<li><strong>Right to Portability:</strong> Receive your data in a structured, commonly used format</li>
-</ul>
-<p>To exercise any of these rights, please contact us at info@funhousecamp.com</p>
-</div>
-<div class="privacy-section">
-<h2>6. How Long We Keep Your Data</h2>
-<p>We retain personal information for as long as necessary to fulfill the purposes outlined in this policy:</p>
-<ul>
-<li><strong>Active Registrations:</strong> Retained for the duration of your child's attendance plus current academic year</li>
-<li><strong>Medical Records:</strong> Retained for 7 years after last attendance (legal requirement)</li>
-<li><strong>Safeguarding Records:</strong> Retained in accordance with statutory guidance</li>
-<li><strong>Financial Records:</strong> Retained for 6 years (HMRC requirement)</li>
-</ul>
-</div>
-<div class="privacy-section">
-<h2>7. Photography & Images</h2>
-<p>We may take photographs during camp activities for the following purposes:</p>
-<ul>
-<li>Internal records and staff training</li>
-<li>Website and promotional materials (with explicit consent)</li>
-<li>Social media posts (with explicit consent)</li>
-</ul>
-<div class="highlight-box"><strong>Important:</strong> We will always seek your explicit consent before using any images of your child. You can withdraw consent at any time. Parents and visitors are NOT permitted to take photographs at camp.</div>
-</div>
-<div class="privacy-section">
-<h2>8. Cookies & Website Data</h2>
-<p>Our website may use cookies to improve your browsing experience:</p>
-<ul>
-<li><strong>Essential Cookies:</strong> Required for website functionality</li>
-<li><strong>Analytics Cookies:</strong> Help us understand how visitors use our site</li>
-</ul>
-<p>You can control cookie settings through your browser preferences.</p>
-</div>
-<div class="privacy-section">
-<h2>9. Children's Privacy</h2>
-<p>We are committed to protecting children's privacy. We:</p>
-<ul>
-<li>Only collect information necessary for camp operations and safety</li>
-<li>Train all staff on data protection and confidentiality</li>
-<li>Ensure children's information is handled with appropriate care</li>
-<li>Never share children's personal information inappropriately</li>
-</ul>
-</div>
-<div class="privacy-section">
-<h2>10. Updates to This Policy</h2>
-<p>We may update this Privacy Policy from time to time to reflect changes in our practices or legal requirements. We will notify you of any significant changes by email or through our website.</p>
-<p><strong>Last Updated:</strong> January 2025</p>
-</div>
+
 <div class="privacy-section">
 <h2>11. Contact Us</h2>
-<p>If you have any questions about this Privacy Policy or how we handle your data, please contact us:</p>
+<p>If you have any questions about this Privacy Policy, please contact us:</p>
 <ul>
 <li><strong>Email:</strong> info@funhousecamp.com</li>
 <li><strong>Address:</strong> Sunnyhill Primary School</li>
 </ul>
-<p style="margin-top: 20px;">You also have the right to lodge a complaint with the Information Commissioner's Office (ICO) if you believe your data has been mishandled. Visit <a href="https://ico.org.uk" target="_blank" style="color: #5BBFB8;">www.ico.org.uk</a> for more information.</p>
 </div>
+
 <div style="text-align: center; margin: 50px 0;">
 <a href="index.html" class="back-btn" style="display: inline-block;">← Back to Home</a>
 </div>
 </div>
+
 <footer style="background: linear-gradient(135deg, #87C7F1, #EACFFF); padding: 30px; text-align: center;">
 <p style="margin: 5px 0;">© 2025 Funhouse Camp. All rights reserved.</p>
 <p style="margin: 5px 0;">Ofsted Registered | DBS Checked Staff</p>
 </footer>
+
+<script>
+    function toggleMobileMenu() {
+        const overlay = document.getElementById('mobile-overlay');
+        overlay.classList.toggle('active');
+    }
+</script>
 </body>
 </html>

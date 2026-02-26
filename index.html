@@ -66,8 +66,8 @@
         .book-now-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(254, 183, 211, 0.6); }
         
         /* Mobile Menu Styles */
-        .mobile-menu { display: none; flex-direction: column; gap: 5px; cursor: pointer; z-index: 2000; }
-        .mobile-menu span { width: 30px; height: 3px; background: #333; transition: 0.3s; }
+        .mobile-menu { display: none; flex-direction: column; gap: 5px; cursor: pointer; z-index: 3000; position: relative; }
+        .mobile-menu span { width: 30px; height: 3px; background: #333; border-radius: 2px; transition: 0.3s; }
         
         #mobile-overlay {
             display: none;
@@ -77,9 +77,10 @@
             width: 100%;
             height: 100vh;
             background: white;
-            z-index: 1500;
+            z-index: 2500;
             padding-top: 100px;
             text-align: center;
+            overflow-y: auto;
         }
         .mobile-nav-links { list-style: none; }
         .mobile-nav-links li { margin: 25px 0; }
@@ -142,7 +143,7 @@
         .faq-question { padding: 25px 30px; cursor: pointer; font-weight: 600; font-size: 18px; display: flex; justify-content: space-between; align-items: center; transition: background 0.3s; }
         .faq-question:hover { background: #f9f9f9; }
         .faq-answer { padding: 0 30px; max-height: 0; overflow: hidden; transition: all 0.3s; color: #666; line-height: 1.8; }
-        .faq-answer.active { padding: 0 30px 25px 30px; max-height: 500px; }
+        .faq-answer.active { padding: 0 30px 25px 30px; max-height: 600px; }
         .contact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-bottom: 40px; }
         .contact-card { padding: 35px; border-radius: 20px; text-align: center; box-shadow: 0 6px 20px rgba(0,0,0,0.1); transition: transform 0.3s; }
         .contact-card:hover { transform: translateY(-5px); }
@@ -226,6 +227,7 @@
     </header>
 
     <div id="mobile-overlay">
+        <div class="close-btn" onclick="toggleMobileMenu()" style="position: absolute; top: 20px; right: 30px; font-size: 40px; cursor: pointer;">×</div>
         <ul class="mobile-nav-links">
             <li><a href="#home" onclick="toggleMobileMenu()">Home</a></li>
             <li><a href="#about" onclick="toggleMobileMenu()">About Us</a></li>
@@ -608,13 +610,19 @@
             const answer = element.nextElementSibling;
             const icon = element.querySelector('span');
             answer.classList.toggle('active');
-            icon.textContent = answer.classList.contains('active') ? '−' : '+';
+            if (answer.classList.contains('active')) {
+                icon.textContent = '−';
+            } else {
+                icon.textContent = '+';
+            }
         }
 
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
-                e.preventDefault();
                 const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                e.preventDefault();
                 const target = document.querySelector(targetId);
                 if (target) {
                     const headerHeight = document.querySelector('.header').offsetHeight;
@@ -629,3 +637,4 @@
     </script>
 </body>
 </html>
+    
